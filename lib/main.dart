@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizmaster/firebase_options.dart';
 import 'splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
@@ -6,8 +7,12 @@ import 'screens/forgot_password_screen.dart';
 import 'home/home_screen.dart';  
 import 'home/categories_screen.dart';  // Added import
 import 'home/quiz_list_screen.dart';  // Added import
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async{
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(QuizMasterApp());
 }
 

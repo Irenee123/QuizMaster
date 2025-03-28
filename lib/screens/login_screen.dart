@@ -1,11 +1,60 @@
 import 'package:flutter/material.dart';
-import 'signup_screen.dart'; // For navigation to signup
-import '../home/home_screen.dart'; // Make sure this import path is correct
-import 'forgot_password_screen.dart'; // For forgot password navigation
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import '../home/home_screen.dart';
+import 'signup_screen.dart';
+import 'forgot_password_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool _isLoading = false;
+
+  Future<void> _loginWithEmailPassword() async {
+    setState(() => _isLoading = true);
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login failed: ${e.toString()}")),
+      );
+    }
+    setState(() => _isLoading = false);
+  }
+
+  Future<void> _loginWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await _auth.signInWithCredential(credential);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Google Sign-In failed: ${e.toString()}")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,111 +65,59 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Welcome Text
             Text(
               "Welcome Back",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            Text(
-              "Let's continue your learning journey",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-              ),
-            ),
+            Text("Let's continue your learning journey", style: TextStyle(fontSize: 16, color: Colors.grey[600])),
             SizedBox(height: 40),
-
-            // Email Field
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(
-                labelText: "Enter your Email",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.email),
-              ),
+              decoration: InputDecoration(labelText: "Enter your Email", border: OutlineInputBorder(), prefixIcon: Icon(Icons.email)),
             ),
             SizedBox(height: 20),
-
-            // Password Field
             TextField(
               controller: _passwordController,
               obscureText: true,
-              decoration: InputDecoration(
-                labelText: "Enter Password",
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.lock),
-              ),
+              decoration: InputDecoration(labelText: "Enter Password", border: OutlineInputBorder(), prefixIcon: Icon(Icons.lock)),
             ),
             SizedBox(height: 10),
-
-            // Forgot Password Link
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {
-                  // Navigate to forgot password screen
-                },
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(color: Colors.blue),
-                ),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordScreen())),
+                child: Text("Forgot Password?", style: TextStyle(color: Colors.blue)),
               ),
             ),
             SizedBox(height: 30),
-
-            // Login Button
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Simple navigation without auth check
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+            _isLoading
+                ? CircularProgressIndicator()
+                : SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: _loginWithEmailPassword,
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                      child: Text("Login", style: TextStyle(fontSize: 18, color: Colors.white)),
+                    ),
                   ),
-                ),
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+            SizedBox(height: 20),
+            Text("Or continue with"),
+            SizedBox(height: 10),
+            IconButton(
+              icon: Image.asset('assets/google_logo.png'),git 
+              iconSize: 40,
+              onPressed: _loginWithGoogle,
             ),
             SizedBox(height: 20),
-
-            // Sign Up Redirect
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Don't have an account? "),
                 TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignupScreen()),
-                    );
-                  },
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SignupScreen())),
+                  child: Text("Sign Up", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),
