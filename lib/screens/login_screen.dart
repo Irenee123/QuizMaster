@@ -6,6 +6,8 @@ import 'signup_screen.dart';
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -29,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login failed: ${e.toString()}")),
+        SnackBar(content: Text("Login failed: \${e.toString()}")),
       );
     }
     setState(() => _isLoading = false);
@@ -51,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Google Sign-In failed: ${e.toString()}")),
+        SnackBar(content: Text("Google Sign-In failed: \${e.toString()}")),
       );
     }
   }
@@ -106,8 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
             Text("Or continue with"),
             SizedBox(height: 10),
             IconButton(
-              icon: Image.asset('assets/google_logo.png'),git 
-              iconSize: 40,
+              icon: Image.asset('assets/google_logo.png', width: 24, height: 24),
+              iconSize: 24,
               onPressed: _loginWithGoogle,
             ),
             SizedBox(height: 20),

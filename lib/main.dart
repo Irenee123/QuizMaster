@@ -17,6 +17,8 @@ void main() async{
 }
 
 class QuizMasterApp extends StatelessWidget {
+  const QuizMasterApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

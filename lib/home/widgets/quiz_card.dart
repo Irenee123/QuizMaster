@@ -11,7 +11,7 @@ class QuizCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const QuizCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.questionCount,
     required this.duration,
@@ -19,7 +19,7 @@ class QuizCard extends StatelessWidget {
     required this.completion,
     required this.accentColor,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

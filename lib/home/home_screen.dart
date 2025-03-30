@@ -6,6 +6,8 @@ import 'widgets/quiz_card.dart';
 import 'quiz_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -226,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class QuizDetailScreen extends StatelessWidget {
   final Map<String, dynamic> quiz;
 
-  const QuizDetailScreen(this.quiz);
+  const QuizDetailScreen(this.quiz, {super.key});
 
   @override
   Widget build(BuildContext context) {

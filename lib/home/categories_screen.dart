@@ -13,6 +13,8 @@ class CategoriesScreen extends StatelessWidget {
     {'name': "Arts", 'icon': Iconsax.activity, 'color': Colors.pink, 'progress': 0.5},
   ];
 
+  CategoriesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

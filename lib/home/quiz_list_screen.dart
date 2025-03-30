@@ -9,11 +9,11 @@ class QuizListScreen extends StatelessWidget {
   final IconData categoryIcon;
 
    QuizListScreen({
-    Key? key,
+    super.key,
     required this.categoryName,
     required this.categoryColor,
     this.categoryIcon = Icons.quiz,
-  }) : super(key: key);
+  });
 
   final List<Map<String, dynamic>> quizzes = [
     {

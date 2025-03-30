@@ -7,7 +7,7 @@ import 'results_screen.dart';
 class QuizScreen extends StatefulWidget {
   final Map<String, dynamic> quiz;
 
-  const QuizScreen({Key? key, required this.quiz}) : super(key: key);
+  const QuizScreen({super.key, required this.quiz});
 
   @override
   _QuizScreenState createState() => _QuizScreenState();

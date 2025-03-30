@@ -9,13 +9,13 @@ class ResultsScreen extends StatelessWidget {
   final List<Map<String, dynamic>> questions;
 
   const ResultsScreen({
-    Key? key,
+    super.key,
     required this.score,
     required this.totalQuestions,
     required this.quiz,
     required this.answers,
     required this.questions,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class ResultsScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Text(
-                      '${percentage}%',
+                      '$percentage%',
                       style: TextStyle(fontSize: 20),
                     ),
                   ],
