@@ -20,9 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
     {'name': 'Language', 'icon': Icons.language, 'color': Colors.purple, 'progress': 0.9},
   ];
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>(); // Define a GlobalKey for Scaffold
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>(); // Define a GlobalKey for Scaffold
 
-  
   final List<Map<String, dynamic>> recentQuizzes = [
     {
       'title': 'Basic Algebra', 
@@ -62,22 +61,28 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDarkMode ? Colors.grey[800]! : Colors.white;
-    return Scaffold(
+
+return Scaffold(
+      key: _scaffoldKey, // Assign the key to Scaffold
       appBar: AppBar(
+        automaticallyImplyLeading: false, // Removes the default leading icon
         title: Hero(
           tag: 'appTitle',
           child: Material(
             type: MaterialType.transparency,
-            child: Text('QuizMaster', style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text('QuizMaster',
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Iconsax.menu), // Hamburger icon
-          onPressed: () {
-            // Open the drawer
-             _scaffoldKey.currentState?.openDrawer();
-          },
-        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Iconsax.menu), // Hamburger icon on the right
+            onPressed: () {
+              _scaffoldKey.currentState
+                  ?.openEndDrawer(); // Open right-side drawer
+            },
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _refreshData,
@@ -148,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
 
-      drawer: Drawer(
+      endDrawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
