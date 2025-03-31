@@ -20,6 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
     {'name': 'Language', 'icon': Icons.language, 'color': Colors.purple, 'progress': 0.9},
   ];
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>(); // Define a GlobalKey for Scaffold
+
+  
   final List<Map<String, dynamic>> recentQuizzes = [
     {
       'title': 'Basic Algebra', 
@@ -59,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final cardColor = isDarkMode ? Colors.grey[800]! : Colors.white;
-
     return Scaffold(
       appBar: AppBar(
         title: Hero(
@@ -69,12 +71,13 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text('QuizMaster', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Iconsax.notification),
-            onPressed: () {},
-          ),
-        ],
+        leading: IconButton(
+          icon: const Icon(Iconsax.menu), // Hamburger icon
+          onPressed: () {
+            // Open the drawer
+             _scaffoldKey.currentState?.openDrawer();
+          },
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: _refreshData,
@@ -143,8 +146,60 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+
+
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            // Drawer header (you can customize it with a profile image, etc.)
+            UserAccountsDrawerHeader(
+              accountName: Text('User Name'),
+              accountEmail: Text('user@example.com'),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.blue,
+                child: const Icon(Icons.person),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
+              onTap: () {
+                // Navigate to profile screen
+                Navigator.pushNamed(context, '/profile');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications),
+              title: const Text('Notifications'),
+              onTap: () {
+                // Navigate to notifications screen
+                Navigator.pushNamed(context, '/notifications');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                // Navigate to settings screen
+                Navigator.pushNamed(context, '/settings');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Sign out'),
+              onTap: () {
+                // Sign out the user
+                // You can implement your sign-out logic here
+                Navigator.pushReplacementNamed(context, '/login');
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
+
 
   Widget _buildSearchBar(bool isDarkMode) {
     return Container(
