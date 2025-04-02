@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:quizmaster/firebase_options.dart';
+import 'package:quizmaster/home/profile.dart';
 import 'splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/forgot_password_screen.dart';
 import 'home/home_screen.dart';  
 import 'home/categories_screen.dart';  // Added import
-import 'home/quiz_list_screen.dart';  // Added import
+// Added import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:quizmaster/providers/user_provider.dart';
 import 'providers/auth_provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -20,6 +22,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: QuizMasterApp(),
     ),
@@ -64,6 +67,7 @@ class QuizMasterApp extends StatelessWidget {
           '/signup': (context) => SignupScreen(),
           '/forgot-password': (context) => ForgotPasswordScreen(),
           '/home': (context) => HomeScreen(),
+          '/profile': (context) => ProfileScreen(),
           '/categories': (context) => CategoriesScreen(),  // Added route
           // QuizListScreen is navigated to directly with arguments
         },

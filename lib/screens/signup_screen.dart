@@ -7,16 +7,18 @@ class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  SignupScreenState createState() => SignupScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   bool _isLoading = false;
 
@@ -24,8 +26,10 @@ class _SignupScreenState extends State<SignupScreen> {
   void dispose() {
     _fullNameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+     _locationController.dispose();
     super.dispose();
   }
 
@@ -42,8 +46,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
     String? result = await authProvider.signUpWithEmail(
       fullName: _fullNameController.text.trim(),
+      phone: _phoneController.text.trim(),
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
+      location: _locationController.text.trim(),  
     );
 
     setState(() => _isLoading = false);

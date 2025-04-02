@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'results_screen.dart';
 
 class QuizScreen extends StatefulWidget {
