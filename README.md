@@ -30,8 +30,8 @@
 ### Running the App
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/yourusername/quizmaster-app.git
-   cd quizmaster-app
+   https://github.com/Irenee123/QuizMaster.git
+   cd QuizMaster
    ```
 
 2. **Install dependencies**  
@@ -84,7 +84,4 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-# 📚 QuizMaster - Interactive Learning App
-
-![QuizMaster Banner](https://via.placeholder.com/800x200?text=QuizMaster+Interactive+Learning+App)
 
