@@ -18,7 +18,7 @@ class _QuizScreenState extends State<QuizScreen> with SingleTickerProviderStateM
   List<bool?> _answers = [];
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
-  int _timeLeft = 30; // 30 seconds per question
+  int _timeLeft = 03; // 30 seconds per question
   late Timer _timer;
 
   final List<Map<String, dynamic>> _questions = [
@@ -33,6 +33,24 @@ class _QuizScreenState extends State<QuizScreen> with SingleTickerProviderStateM
       'options': ['Venus', 'Mars', 'Jupiter', 'Saturn'],
       'correctIndex': 1,
       'explanation': 'Mars appears red due to iron oxide on its surface.'
+    },
+    {
+    "question": "What is the largest ocean on Earth?",
+    "options": ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean", "Arctic Ocean"],
+    "correctIndex": 2,
+    "explanation": "The Pacific Ocean is the largest, covering more than 63 million square miles."
+    },
+    {
+    "question": "Which element is denoted by the symbol 'O'?",
+    "options": ["Oxygen", "Gold", "Silver", "Osmium"],
+    "correctIndex": 0,
+    "explanation": "The symbol 'O' represents Oxygen, a vital element for life on Earth."
+    },
+    {
+    "question": "What is the fastest land animal?",
+    "options": ["Lion", "Cheetah", "Horse", "Gazelle"],
+    "correctIndex": 1,
+    "explanation": "The cheetah is the fastest land animal, reaching speeds of up to 70 mph."
     },
     // Add more questions...
   ];
