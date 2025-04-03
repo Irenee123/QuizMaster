@@ -1,23 +1,3 @@
-# quizmaster
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# 📚 QuizMaster - Interactive Learning App
-
-![QuizMaster Banner](https://via.placeholder.com/800x200?text=QuizMaster+Interactive+Learning+App)
-
 ## 🎯 Introduction
 **QuizMaster** is a modern, interactive quiz application designed to make learning fun and engaging. With a sleek UI and powerful features, it helps users track their learning progress across various subjects.
 
@@ -77,17 +57,34 @@ samples, guidance on mobile development, and a full API reference.
 
 
 ## 🏆 Meet the Team
-
-| ![Author 1](https://via.placeholder.com/100) | ![Author 2](https://via.placeholder.com/100) | ![Author 3](https://via.placeholder.com/100) |
-|----------------------------------|----------------------------------|----------------------------------|
-| **John Doe**<br>📧 john@email.com<br>💻 UI/UX Expert | **Jane Smith**<br>📧 jane@email.com<br>💡 Quiz Logic | **Alex Johnson**<br>📧 alex@email.com<br>📊 Analytics |
-
-
-
-## 📱 Screenshots
-| ![Screen 1](https://via.placeholder.com/200) | ![Screen 2](https://via.placeholder.com/200) | ![Screen 3](https://via.placeholder.com/200) |
-|----------------------------------|----------------------------------|----------------------------------|
-| *Login Screen* | *Categories* | *Quiz In Progress* |
+- **Irenee Gisubizo Dusingizimana**  
+  - GitHub: [Irenee123](https://github.com/Irenee123)  
+  - Email: [i.dusingizi@alustudent.com]
+- **Jean Pierre Niyongabo**  
+  - GitHub: [ngabo-dev](https://github.com/ngabo-dev)  
+  - Email: [j.niyongabo@alustudent.com]
+- **Alvin Katabarwa**  
+  - GitHub: [Irenee123](https://github.com/Irenee123)  
+  - Email: [a.katabarwa@alustudent.com]
 
 
+# quizmaster
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
+# 📚 QuizMaster - Interactive Learning App
+
+![QuizMaster Banner](https://via.placeholder.com/800x200?text=QuizMaster+Interactive+Learning+App)
 
