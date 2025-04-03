@@ -6,11 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController locationController = TextEditingController();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -37,54 +32,43 @@ class AuthProvider with ChangeNotifier {
     required String phone,
   }) async {
     try {
-      // Create user in Firebase Authentication
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Get the UID of the created user
       String uid = userCredential.user!.uid;
 
-      // Store user details in Firestore
       await _firestore.collection('users').doc(uid).set({
         'fullName': fullName,
         'email': email,
+        'phone': phone,
         'location': location,
         'createdAt': Timestamp.now(),
       });
 
-      return null; // Success
+      // Load user data after sign-up
+      await loadUserData();
+
+      return null;
     } catch (e) {
-      return e.toString(); // Return error message
+      return e.toString();
     }
   }
 
   // Sign In with Email
-  Future<String?> signInWithEmail({required String email, required String password}) async {
+  Future<String?> signInWithEmail({
+    required String email,
+    required String password,
+  }) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Fetch user details from Firestore
-      DocumentSnapshot userDoc = await _firestore
-          .collection("users")
-          .doc(userCredential.user!.uid)
-          .get();
-
-      if (userDoc.exists) {
-        var data = userDoc.data() as Map<String, dynamic>;
-        fullName = data['fullName'] ?? '';
-        this.email = data['email'] ?? '';
-        phone = data['phone'] ?? '';
-        location = data['location'] ?? '';
-        notifyListeners();
-
-        // Load the user data and update the profile fields
-      await loadUserData();  // This will update the controllers and notify listeners
-      }
+      // Fetch and load user details
+      await loadUserData();
 
       return null;
     } catch (e) {
@@ -117,7 +101,6 @@ class AuthProvider with ChangeNotifier {
         DocumentSnapshot userDoc = await _firestore.collection("users").doc(user.uid).get();
 
         if (!userDoc.exists) {
-          // Store new Google user in Firestore
           await _firestore.collection("users").doc(user.uid).set({
             'fullName': user.displayName ?? '',
             'email': user.email ?? '',
@@ -127,6 +110,7 @@ class AuthProvider with ChangeNotifier {
           });
         }
 
+        // Load user data after Google sign-in
         await loadUserData();
       }
 
@@ -138,60 +122,56 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-// Load user data from Firestore
-Future<void> loadUserData() async {
-  if (_auth.currentUser != null) {
-    var snapshot = await _firestore.collection('users').doc(_auth.currentUser!.uid).get();
+  // Load user data from Firestore
+  Future<void> loadUserData() async {
+    if (_auth.currentUser != null) {
+      try {
+        var snapshot = await _firestore.collection('users').doc(_auth.currentUser!.uid).get();
 
-    if (snapshot.exists) {
-      var data = snapshot.data() as Map<String, dynamic>;
-      fullName = data['fullName'] ?? '';
-      email = data['email'] ?? '';
-      phone = data['phone'] ?? '';
-      location = data['location'] ?? '';
-      
-      // Update the controllers with the user data
-      nameController.text = fullName;
-      emailController.text = email;
-      phoneController.text = phone;
-      locationController.text = location;
+        if (snapshot.exists) {
+          var data = snapshot.data() as Map<String, dynamic>;
 
-      notifyListeners(); // Notify listeners to rebuild the UI
+          fullName = data['fullName'] ?? '';
+          email = data['email'] ?? '';
+          phone = data['phone'] ?? '';
+          location = data['location'] ?? '';
+
+          notifyListeners();
+        }
+      } catch (e) {
+        print("Error loading user data: $e");
+      }
     }
   }
-}
-
 
   // Save user data to Firestore
   Future<void> saveUserData() async {
     if (_auth.currentUser != null) {
-      await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
-        'fullName': fullName,
-        'email': email,
-        'phone': phone,
-        'location': location,
-      });
-      notifyListeners();
+      try {
+        await _firestore.collection('users').doc(_auth.currentUser!.uid).update({
+          'fullName': fullName,
+          'email': email,
+          'phone': phone,
+          'location': location,
+        });
+
+        notifyListeners();
+      } catch (e) {
+        print("Error saving user data: $e");
+      }
     }
   }
 
   // Sign out method
   Future<void> signOut() async {
     await _auth.signOut();
+
+    // Clear stored user data
     fullName = '';
     email = '';
     phone = '';
     location = '';
-    notifyListeners();
-  }
 
-  // Get user profile
-  Future<Map<String, dynamic>?> getUserProfile() async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
-      return userDoc.data() as Map<String, dynamic>?;
-    }
-    return null;
+    notifyListeners();
   }
 }

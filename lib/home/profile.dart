@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:quizmaster/providers/auth_provider.dart';
-import 'package:quizmaster/providers/user_provider.dart'; // Import UserProvider
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<AuthProvider, UserProvider>( // Use Consumer2 to access both AuthProvider and UserProvider
-      builder: (context, authProvider, userProvider, child) {
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, child) {
+        // Load user data when ProfileScreen is built
+        authProvider.loadUserData();
+
         return Scaffold(
           appBar: AppBar(
             title: Text('Profile'),
@@ -40,18 +42,26 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 Text(
-                  userProvider.fullName ?? 'User Name', // Display the user's name from UserProvider
+                  authProvider.fullName.isNotEmpty ? authProvider.fullName : 'User Name', // Display actual name
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  userProvider.email ?? 'user@example.com', // Display the user's email from UserProvider
+                  authProvider.email.isNotEmpty ? authProvider.email : 'user@example.com', // Display actual email
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
                 SizedBox(height: 20),
-                _buildTextField(authProvider.phoneController, 'Phone',
-                    Iconsax.call, TextInputType.phone),
-                _buildTextField(authProvider.locationController, 'Location',
-                    Iconsax.location, TextInputType.text),
+                _buildTextField(
+                  TextEditingController(text: authProvider.phone),
+                  'Phone',
+                  Iconsax.call,
+                  authProvider.isLoading,
+                ),
+                _buildTextField(
+                  TextEditingController(text: authProvider.location),
+                  'Location',
+                  Iconsax.location,
+                  authProvider.isLoading,
+                ),
                 Spacer(),
                 ElevatedButton(
                   onPressed: () async {
@@ -72,7 +82,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label, IconData icon, dynamic authProvider) {
+  Widget _buildTextField(
+      TextEditingController controller, String label, IconData icon, bool isEditable) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -80,7 +91,7 @@ class ProfileScreen extends StatelessWidget {
         prefixIcon: Icon(icon, color: Colors.deepPurple),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
-      readOnly: !authProvider.isLoading, // Make the text field editable when loading is true
+      readOnly: !isEditable, // Make text field editable only when in edit mode
     );
   }
 }

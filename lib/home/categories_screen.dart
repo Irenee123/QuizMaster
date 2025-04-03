@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'quiz_list_screen.dart';
 import 'widgets/category_card.dart';
 
@@ -15,6 +16,49 @@ class CategoriesScreen extends StatelessWidget {
 
   CategoriesScreen({super.key});
 
+  Future<void> _fetchUserData(BuildContext context) async {
+    try {
+      var userDoc = await FirebaseFirestore.instance.collection('users').doc('user_id').get();
+      if (userDoc.exists) {
+        String name = userDoc['name'];
+        String email = userDoc['email'];
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("User Info"),
+            content: Text("Name: $name\nEmail: $email"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+      } else {
+        _showErrorDialog(context, "User document does not exist.");
+      }
+    } catch (e) {
+      _showErrorDialog(context, "Error retrieving user data: $e");
+    }
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Error"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +68,10 @@ class CategoriesScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Iconsax.search_normal),
             onPressed: () => _showSearchSheet(context),
+          ),
+          IconButton(
+            icon: Icon(Iconsax.user),
+            onPressed: () => _fetchUserData(context),
           ),
         ],
       ),
@@ -62,12 +110,12 @@ class CategoriesScreen extends StatelessWidget {
     );
   }
 
-void _showSearchSheet(BuildContext context) {
-  showModalBottomSheet(
-    context: context,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-    ),
+  void _showSearchSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) => Container(
         padding: EdgeInsets.all(20),
         height: 300,
