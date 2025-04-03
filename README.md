@@ -76,3 +76,18 @@ samples, guidance on mobile development, and a full API reference.
   ```
 
 
+## 🏆 Meet the Team
+
+| ![Author 1](https://via.placeholder.com/100) | ![Author 2](https://via.placeholder.com/100) | ![Author 3](https://via.placeholder.com/100) |
+|----------------------------------|----------------------------------|----------------------------------|
+| **John Doe**<br>📧 john@email.com<br>💻 UI/UX Expert | **Jane Smith**<br>📧 jane@email.com<br>💡 Quiz Logic | **Alex Johnson**<br>📧 alex@email.com<br>📊 Analytics |
+
+
+
+## 📱 Screenshots
+| ![Screen 1](https://via.placeholder.com/200) | ![Screen 2](https://via.placeholder.com/200) | ![Screen 3](https://via.placeholder.com/200) |
+|----------------------------------|----------------------------------|----------------------------------|
+| *Login Screen* | *Categories* | *Quiz In Progress* |
+
+
+
