@@ -42,6 +42,37 @@ samples, guidance on mobile development, and a full API reference.
 ## 🚀 Installation & Setup
 
 ### Prerequisites
-- ![Flutter](https://img.icons8.com/color/20/000000/flutter.png) Flutter SDK (v3.0 or higher)
-- ![Android Studio](https://img.icons8.com/color/20/000000/android-studio--v2.png) Android Studio / Xcode (for emulators)
-- ![VS Code]
+- Flutter SDK (v3.0.0 or higher)  
+- Dart SDK (v2.17.0 or higher)  
+- Android Studio/Xcode (for emulators)  
+- VS Code/Android Studio (with Flutter plugins)  
+
+### Running the App
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/yourusername/quizmaster-app.git
+   cd quizmaster-app
+   ```
+
+2. **Install dependencies**  
+   ```bash
+   flutter pub get
+   ```
+
+3. **Run the app**  
+   ```bash
+   flutter run
+   ```
+
+### Building for Production
+- **Android APK**  
+  ```bash
+  flutter build apk --release
+  ```
+
+- **iOS App Bundle**  
+  ```bash
+  flutter build ios --release
+  ```
+
+
